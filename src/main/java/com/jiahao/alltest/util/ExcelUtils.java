@@ -1,9 +1,13 @@
 package com.jiahao.alltest.util;
 
+import com.jiahao.alltest.entity.CompanyInfo;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.*;
@@ -18,6 +22,11 @@ public class ExcelUtils {
 
     private static final Logger log = LoggerFactory.getLogger(ExcelUtils.class);
 
+    /**
+     * 文件的导入
+     * @param fileName 文件的绝对路径
+     * @return excel数据集合
+     */
     public static List<Object[]> importExcel(String fileName) {
         log.info("导入解析开始，fileName:{}",fileName);
         try {
@@ -62,49 +71,58 @@ public class ExcelUtils {
         return null;
     }
 
+
     public static void main(String[] args) {
-        List<Object[]> objects = importExcel("D:\\test\\高考成绩表.xlsx");
+        // 文件的导入测试
+//        List<Object[]> objects = importExcel("D:\\test\\高考成绩表.xlsx");
+//
+//        int yuwen_index = 0, shuxue_index = 0, yingwen_index = 0, name_index = 0;
+//        // 获取各科成绩的下标
+//        for (int i = 0; i < objects.get(0).length; i++) {
+//            if("语文".equals(objects.get(0)[i])) {
+//                yuwen_index = i;
+//            }
+//            if("数学".equals(objects.get(0)[i])) {
+//                shuxue_index = i;
+//            }
+//            if("英文".equals(objects.get(0)[i])) {
+//                yingwen_index = i;
+//            }
+//            if("姓名".equals(objects.get(0)[i])) {
+//                name_index = i;
+//            }
+//        }
+//
+//        Map<String, Integer> nameSocre = new HashMap<>();
+//        for (Object[] objects1 : objects) {
+//            if("序号".equals(objects1[0])) {
+//                continue;
+//            }
+//            int sum = 0;
+//            String name = "";
+//            for (int i = 1; i < objects1.length; i++) {
+//                if(i == yuwen_index || i == shuxue_index || i == yingwen_index) {
+//                    sum += (int)objects1[i];
+//                }
+//                if(i == name_index) {
+//                    name = (String)objects1[i];
+//                }
+//                nameSocre.put(name, sum);
+//            }
+//        }
+//
+//        Iterator<String> iterator = nameSocre.keySet().iterator();
+//        while(iterator.hasNext()){
+//            String name = iterator.next();
+//            log.info("name:{}, sum:{}", name, nameSocre.get(name));
+//        }
 
-        int yuwen_index = 0, shuxue_index = 0, yingwen_index = 0, name_index = 0;
-        // 获取各科成绩的下标
-        for (int i = 0; i < objects.get(0).length; i++) {
-            if("语文".equals(objects.get(0)[i])) {
-                yuwen_index = i;
-            }
-            if("数学".equals(objects.get(0)[i])) {
-                shuxue_index = i;
-            }
-            if("英文".equals(objects.get(0)[i])) {
-                yingwen_index = i;
-            }
-            if("姓名".equals(objects.get(0)[i])) {
-                name_index = i;
-            }
-        }
 
-        Map<String, Integer> nameSocre = new HashMap<>();
-        for (Object[] objects1 : objects) {
-            if("序号".equals(objects1[0])) {
-                continue;
-            }
-            int sum = 0;
-            String name = "";
-            for (int i = 1; i < objects1.length; i++) {
-                if(i == yuwen_index || i == shuxue_index || i == yingwen_index) {
-                    sum += (int)objects1[i];
-                }
-                if(i == name_index) {
-                    name = (String)objects1[i];
-                }
-                nameSocre.put(name, sum);
-            }
-        }
+        // 导出测试
+        List<CompanyInfo> companyInfoLis = new ArrayList<>();
+        ExcelUtils2.writeExcel(companyInfoLis, CompanyInfo.class, "导出测试");
 
-        Iterator<String> iterator = nameSocre.keySet().iterator();
-        while(iterator.hasNext()){
-            String name = iterator.next();
-            log.info("name:{}, sum:{}", name, nameSocre.get(name));
-        }
+
     }
 
 }
